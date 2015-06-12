@@ -17,7 +17,7 @@ cp /tmp/liveroot/initcpio/install/* /usr/lib/initcpio/install
 
 # Configure and install an initial ramdisk environment
 # with root overlay enabled.
-echo 'MODULES="overlay"
+echo 'MODULES="overlay btrfs"
 FILES=""
 BINARIES=""
 HOOKS="base udev oroot autodetect modconf block filesystems keyboard fsck"
@@ -33,6 +33,10 @@ umount /mnt/boot
 mkdir -p /mnt/boot
 mount /dev/mmcblk1p1 /mnt/boot
 echo 'optargs=coherent_pool=1M oroot=raw' > /mnt/boot/uEnv.txt
+
+# Create and configure mount point for writable partition
+mkdir -p /opt/fabmo
+echo '/dev/mmcblk0p3 /opt/fabmo	btrfs' > /etc/fstab
 
 # Install dependencies for fabmo
 echo "Installing fabmo dependencies"
