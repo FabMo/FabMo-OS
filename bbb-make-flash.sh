@@ -10,8 +10,12 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then 
 
+pacman --noconfirm -S btrfs-progs
+
 umount $1"p1"
 umount $1"p2"
+umount $1"p3"
+umount $1"p4"
 
 # Create the partition table using fdisk    
 echo "
@@ -28,13 +32,26 @@ n
 p
 2
 
++1.5G
+n
+p
+3
 
++1G
+n
+p
+
++1G
 w
-" | fdisk $1
+
+" |
+ fdisk $1
 partprobe
 fdisk -l $1
+
 mkfs.vfat -v -F 16 $1"p1"
 mkfs.ext4 -v $1"p2"
+mkfs.btrfs -m raid1 -d raid1 $1"p3" $1"p4"
 
 rm -rf /tmp/boot /tmp/root
 
@@ -51,7 +68,7 @@ wget http://archlinuxarm.org/os/ArchLinuxARM-am33x-latest.tar.gz -O /tmp/rootfs.
 mkdir /tmp/root
 mount $1"p2" /tmp/root
 bsdtar -xf /tmp/rootfs.tar.gz -C /tmp/root
+cp ./bootstrap.sh /tmp/root/root 
+arch-chroot /tmp/root /bin/bash -c /root/root/bootstrap.sh
 umount /tmp/root
-rm -rf /tmp/root
-
 fi
