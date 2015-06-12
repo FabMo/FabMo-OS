@@ -29,14 +29,11 @@ mkinitcpio -c /tmp/mkinitcpio.conf -g /boot/initramfs-linux.img -k $KERNEL
 
 # Configure bootloader settings to enable root overlay with kernel params
 echo "Enabling root overlay in bootloader"
-umount /mnt/boot
-mkdir -p /mnt/boot
-mount /dev/mmcblk1p1 /mnt/boot
-echo 'optargs=coherent_pool=1M oroot=raw' > /mnt/boot/uEnv.txt
+echo 'optargs=coherent_pool=1M oroot=raw' > /boot/uEnv.txt
 
 # Create and configure mount point for writable partition
 mkdir -p /opt/fabmo
-echo '/dev/mmcblk0p3 /opt/fabmo	btrfs' > /etc/fstab
+echo '/dev/mmcblk0p2 /opt/fabmo	btrfs' > /etc/fstab
 
 # Install dependencies for fabmo
 echo "Installing fabmo dependencies"
@@ -49,7 +46,7 @@ mkdir /fabmo
 mkdir -p /opt/fabmo
 git clone https://github.com/FabMo/FabMo-Engine.git /fabmo
 cd /fabmo
-#npm install
+npm install
 
 # Configure fabmo as a service
 echo "Enabling fabmo as a service"
