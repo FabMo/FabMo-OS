@@ -33,7 +33,7 @@ echo 'optargs=coherent_pool=1M oroot=raw' > /boot/uEnv.txt
 
 # Create and configure mount point for writable partition
 mkdir -p /opt/fabmo
-echo '/dev/mmcblk0p2 /opt/fabmo	btrfs' > /etc/fstab
+echo '/dev/mmcblk0p3 /opt/fabmo	btrfs' > /etc/fstab
 
 # Install dependencies for fabmo
 echo "Installing fabmo dependencies"

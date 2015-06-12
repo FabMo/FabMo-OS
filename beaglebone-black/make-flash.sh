@@ -47,10 +47,10 @@ fdisk -l $1
 mkfs.ext4 -v $1"p1"
 mkfs.btrfs -f -m raid1 -d raid1 $1"p2" $1"p3"
 
-rm -rf /tmp/root
 
 # Get an install the root filesystem
 wget http://archlinuxarm.org/os/ArchLinuxARM-am33x-latest.tar.gz -O /tmp/rootfs.tar.gz
+rm -rf /tmp/root
 mkdir -p /tmp/root
 mount $1"p1" /tmp/root
 bsdtar -xf /tmp/rootfs.tar.gz -C /tmp/root
